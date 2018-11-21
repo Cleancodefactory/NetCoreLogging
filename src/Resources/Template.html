@@ -1,0 +1,485 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Error Logger</title>
+    <style type="text/css">
+
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .btn {
+            background: #009ccc;
+            border-radius: 10px;
+            border: solid 1px #C8C7C7;
+            display: inline-block;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 15px;
+            padding: 8px 16px;
+            text-decoration: none;
+            text-align: center;
+            color: #fff;
+        }
+
+        .btn-right {
+            float: right;
+        }
+
+        table {
+            table-layout: fixed;
+            border-collapse: collapse;
+            border: solid 1px #333;
+            font-size: .8em;
+        }
+
+        th {
+            padding: 3px;
+            text-align: center;
+            border: solid 1px #C8C7C7;
+            background-color: #0D1582;
+            color: #fff;
+        }
+
+        td {
+            padding: 3px;
+            text-align: left;
+            border: solid 1px #333;
+        }
+
+            td.noselected {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                word-wrap: break-word;
+            }
+
+            td.selected {
+                word-wrap: break-word;
+            }
+
+        .roundbox {
+            padding: 10px;
+            border-radius: 10px;
+            border: solid 1px #009ccc;
+        }
+
+        .title {
+            background-color: #009ccc;
+            color: #fff;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .full_width {
+            width: 100%;
+        }
+
+        .pagination {
+            text-align: center;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+            .pagination .pager {
+                border-radius: 5px;
+                border: solid 1px #ccc;
+                display: inline-block;
+                font-size: .8em;
+                padding: 3px;
+            }
+
+                .pagination .pager input {
+                    padding: 6px 14px;
+                    height: 14px;
+                    width: 30px;
+                    border-radius: 5px;
+                    border: solid 1px #ccc;
+                    display: inline;
+                }
+
+                .pagination .pager a {
+                    color: black;
+                    padding: 6px 14px;
+                    text-decoration: none;
+                    transition: background-color .3s;
+                    display: inline;
+                    color: #404040;
+                    background-color: #F4F3F3;
+                    border: 1px solid #C8C7C7;
+                }
+
+                    .pagination .pager a#btnNext, a#btnLast {
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                    }
+
+                    .pagination .pager a#btnPrev, a#btnFirst {
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                    }
+
+                    .pagination .pager a.active {
+                        background-color: #0D1582;
+                        color: white;
+                    }
+
+                    .pagination .pager a:hover:not(.active) {
+                        background-color: #ddd;
+                    }
+    </style>
+</head>
+<body>
+    <h2> KraftCredible BindKraft! </h2>
+    <h4 class="roundbox title">Error Log</h4>
+    <span>
+        <select id="logLevel">
+            <option value="all">All</option>
+            <option value="trace">TRACE</option>
+            <option value="debug">DEBUG</option>
+            <option value="info">INFO</option>
+            <option value="warn">WARN</option>
+            <option value="error">ERROR</option>
+            <option value="fatal">FATAL</option>
+        </select>
+    </span>
+
+    <a id="downloadLink" class="btn btn-right" href="#">Download database</a>
+    <a id="truncateDBLink" class="btn btn-right" href="#">Delete all logs</a>
+
+    <input type='hidden' id='allPages' value='5'>
+    <table border="0" cellpadding="0" cellspasing="0" class="full_width">
+        <thead>
+            <tr>
+                {{header-expr: {<th>{value}</th>}}}
+            </tr>
+        </thead>
+        <tbody class="gridBody">
+            {{row-expr: {<td class="noselected" onclick="return ToggleContent(this);">{value}</td>}}}
+        </tbody>
+    </table>
+    <p class="pagination">
+        <span id="pager" class="pager">
+            <a id="btnFirst" href="">&laquo;&laquo;</a>
+            <a id="btnPrev" href="">&laquo;</a>
+            <span>Page:</span>
+            <input type="text" id="page" value="" />
+            <span>Of:</span>
+            <input type="text" id="pages" value="" />
+            <a id="btnNext" href="">&raquo;</a>
+            <a id="btnLast" href="">&raquo;&raquo;</a>
+            <a id="gotoPage" href="" style="display:none"></a>
+        </span>
+    </p>
+
+    <script>
+
+        //#Region UrlHelper
+        function UrlHelper() {
+            this.url = '';
+        }
+
+        UrlHelper.Init = (function () {
+            return new UrlHelper();
+        });
+
+        UrlHelper.prototype.InitEvents = function () {
+            var self = this;
+
+            var logLevel = document.getElementById('logLevel');
+            if (logLevel != null) {
+                logLevel.addEventListener('change', function (e) {
+                    self.setFilter(e);
+                });
+            }
+
+            var downloadLink = document.getElementById('downloadLink');
+            if (downloadLink != null) {
+                downloadLink.addEventListener('click', function (e) {
+                    self.BuildUrl(e, downloadLink, 'download');
+                });
+            }
+
+            var truncateDBLink = document.getElementById('truncateDBLink');
+            if (truncateDBLink != null) {
+                truncateDBLink.addEventListener('click', function (e) {
+                    self.BuildUrl(e, truncateDBLink, 'truncate');
+                });
+            }
+        };
+
+        UrlHelper.prototype.buildQueryString = function (linkEl, key, value) {
+            if (this.url.search('filter=') === -1 && this.url.search('page=') === -1 && key === 'page') {
+                linkEl.href = this.url + '?filter=All&' + key + '=' + value;
+            } else {
+                if (this.url.search(key) === -1 && key === 'filter') {
+                    linkEl.href = this.url.split('?')[0] + '?' + key + '=' + value;
+                }
+                else if (this.url.search(key) === -1 && key !== 'filter') {
+                    linkEl.href = this.url + '&' + key + '=' + value;
+                }
+                else {
+                    linkEl.href = this.url.split(key)[0] + key + '=' + value;
+                }
+            }
+        };
+
+        UrlHelper.prototype.setFilter = function (e) {
+            var optionsEl = document.getElementById("logLevel");
+            if (optionsEl != null) {
+                var optIndex, optionVal;
+                if (optionsEl.selectedIndex != null) {
+                    optIndex = optionsEl.selectedIndex;
+                    if (optionsEl.options != null) {
+                        optionVal = optionsEl.options[optIndex].text;
+                        this.buildQueryString(optionsEl, 'filter', optionVal);
+                        Redirect(optionsEl.href);
+                    }
+                }
+            }
+            e.stopPropagation();
+        };
+
+        UrlHelper.prototype.setQueryStringFilter = function () {
+            var currentfilter = "All";
+            var matchedfilter = this.url.match(/filter=([a-zA-Z]+)/);
+
+            if (matchedfilter != null && matchedfilter[1] != null) {
+                currentfilter = matchedfilter[1];
+            }
+
+            var optionsEl = document.getElementById("logLevel");
+            if (optionsEl != null) {
+                if (optionsEl.options != null && optionsEl.options.length != null && optionsEl.options.length > 0) {
+                    for (var i = 0; i < optionsEl.options.length; i++) {
+                        var option = optionsEl.options[i].text;
+                        if (option === currentfilter) {
+                            optionsEl.selectedIndex = i;
+                            return;
+                        }
+                    }
+                    optionsEl.selectedIndex = 0;
+                }
+            }
+        };
+
+        UrlHelper.prototype.BuildUrl = function (e, linkEl, path) {
+            if (this.url.search('[\?]')) {
+                this.url = this.url.split('?')[0];
+            }
+            linkEl.href = this.url + "/" + path;
+            e.stopPropagation();
+        };
+        //#endregion
+
+        var urlHelper = UrlHelper.Init();
+        urlHelper.InitEvents();
+
+        //#Region Pager
+        function Pager() {
+            this.currentPage = 1;
+            this.allPages = -1;
+        };
+
+        Pager.Init = (function () {
+            return new Pager();
+        });
+
+        Pager.prototype.InitEvents = function () {
+            var self = this;
+
+            var btnFirst = document.getElementById("btnFirst");
+            if (btnFirst != null) {
+                btnFirst.addEventListener('click', function (e) {
+                    self.gotoFirstPage(e);
+                });
+            }
+
+            var btnNext = document.getElementById("btnNext");
+            if (btnNext != null) {
+                btnNext.addEventListener('click', function (e) {
+                    self.gotoNextPage(e);
+                });
+            }
+
+            var btnPrev = document.getElementById("btnPrev");
+            if (btnPrev != null) {
+                btnPrev.addEventListener('click', function (e) {
+                    self.gotoPrevPage(e);
+                });
+            }
+
+            var btnLast = document.getElementById("btnLast");
+            if (btnLast != null) {
+                btnLast.addEventListener('click', function (e) {
+                    self.gotoLastPage(e);
+                });
+            }
+
+            var gotoPage = document.getElementById("page");
+            if (gotoPage != null) {
+                gotoPage.addEventListener('keypress', function (e) {
+                    self.gotoPage(e);
+                });
+            }
+        };
+
+        Pager.prototype.Reload = function (url) {
+            var pageNumber = url.match(/page=([0-9]+)/);
+            if (pageNumber != null) {
+                var pageNum = parseInt(pageNumber[1]);
+                if (pageNum != this.currentPage) {
+                    this.currentPage = pageNum;
+                }
+            }
+
+            var allPagesEl = document.getElementById('allPages');
+            if (allPagesEl != null && allPagesEl.hasAttribute('value')) {
+                var allPages = parseInt(allPagesEl.value);
+                if (this.allPages != allPages) this.allPages = allPages;
+            }
+
+            this.validate();
+        };
+
+        Pager.prototype.validate = function () {
+            var btnFirst = document.getElementById("btnFirst");
+            var btnNext = document.getElementById("btnNext");
+            var btnPrev = document.getElementById("btnPrev");
+            var btnLast = document.getElementById("btnLast");
+
+            if (btnFirst != null) btnFirst.disabled = (this.currentPage == 1) ? true : false;
+            if (btnPrev != null) btnPrev.disabled = (this.currentPage == 1) ? true : false;
+            if (btnNext != null) btnNext.disabled = (this.currentPage == this.allPages) ? true : false;
+            if (btnLast != null) btnLast.disabled = (this.currentPage == this.allPages) ? true : false;
+
+            var currentPageEl = document.getElementById("page");
+            if (currentPageEl != null && currentPageEl.hasAttribute('value')) {
+                var currentPage = parseInt(currentPageEl.value);
+                if (currentPage != this.currentPage) currentPageEl.value = this.currentPage;
+            }
+
+            var totalPages = document.getElementById('pages');
+            if (totalPages != null && totalPages.hasAttribute('value')) {
+                var allPages = parseInt(totalPages.value);
+                if (allPages != this.allPages) totalPages.value = this.allPages;
+            }
+
+            var pagerEl = document.getElementById("pager");
+            if (pagerEl != null) pagerEl.style.visibility = (this.allPages == 0) ? "hidden" : "visible";
+        };
+
+        Pager.prototype.gotoFirstPage = function (e) {
+            if (this.currentPage > 1) {
+                this.currentPage = 1;
+                this.validate();
+                var btnFirst = document.getElementById('btnFirst');
+                if (btnFirst != null) this.addQuery(btnFirst);
+                e.stopPropagation();
+            }
+        };
+
+        Pager.prototype.gotoPrevPage = function (e) {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+                this.validate();
+                var btnPrev = document.getElementById('btnPrev');
+                if (btnPrev != null) this.addQuery(btnPrev);
+                e.stopPropagation();
+            }
+        };
+
+        Pager.prototype.gotoNextPage = function (e) {
+            if (this.currentPage < this.allPages) {
+                this.currentPage++;
+                this.validate();
+                var btnNext = document.getElementById('btnNext');
+                if (btnNext != null) this.addQuery(btnNext);
+                e.stopPropagation();
+            }
+        };
+
+        Pager.prototype.gotoLastPage = function (e) {
+            if (this.currentPage < this.allPages) {
+                this.currentPage = this.allPages;
+                this.validate();
+                var btnLast = document.getElementById('btnLast');
+                if (btnLast != null) this.addQuery(btnLast);
+                e.stopPropagation();
+            }
+        };
+
+        Pager.prototype.gotoPage = function (e) {
+            if (e.keyCode === 13) {
+                var dc = document.getElementById("page").value;
+                if (dc != null && !isNaN(dc)) {
+                    this.currentPage = parseInt(dc);
+
+                    if (this.currentPage > this.allPages) {
+                        this.currentPage = this.allPages;
+                    }
+                    if (this.currentPage < 1) {
+                        this.currentPage = 1;
+                    }
+                    this.validate();
+
+                    var gotoPage = document.getElementById('gotoPage');
+                    if (gotoPage != null) this.addQuery(gotoPage);
+
+                    Redirect(gotoPage.href);
+                    e.stopPropagation();
+                }
+            }
+        };
+
+        Pager.prototype.addQuery = function (el) {
+            if (el != null) {
+                urlHelper.buildQueryString(el, 'page', this.currentPage);
+            }
+        };
+        //#endregion
+
+        var pager = Pager.Init();
+        pager.InitEvents();
+
+
+        window.onload = function () {
+            var currentUrl = window.location.href;
+            urlHelper.url = currentUrl;
+            urlHelper.setQueryStringFilter();
+            pager.Reload(currentUrl);
+        };
+
+        function ToggleContent(el) {
+            if (el.nodeName.toLowerCase() == "td") {
+                var row = el.parentNode;
+                for (var i = 0; i < row.childNodes.length; i++) {
+                    var ch = row.childNodes[i];
+                    if (ch.nodeName.toLowerCase() == "td") {
+                        ToggleCss(ch);
+                    }
+                };
+            };
+        };
+
+        function ToggleCss(el) {
+            if (el.classList.contains("noselected")) {
+                el.classList.remove("noselected");
+                el.classList.add("selected");
+            } else if (el.classList.contains("selected")) {
+                el.classList.remove("selected");
+                el.classList.add("noselected");
+            }
+        }
+
+        function Redirect(url) {
+            window.location.href = url;
+        };
+
+    </script>
+
+</body>
+
+</html>
