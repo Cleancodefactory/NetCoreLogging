@@ -4,6 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <!-- Nuget specific tags -->
+  <PropertyGroup>
+    <!-- Description and Release notes -->
+    <Description>Extends the default nlog library with static methods for logging and default visualization of the logged entries</Description>
+    <PackageProjectUrl>https://github.com/cleancodefactory/netcorelogging</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cleancodefactory/netcorelogging</RepositoryUrl>
+    <PackageTags>net core logging nlog representation</PackageTags>
+    <PackageReleaseNotes>Contains initial implementation for logging based on nlog with default visualization of the logged items</PackageReleaseNotes>
+    <!-- Description and Release notes -->
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
