@@ -13,6 +13,7 @@
     <PackageReleaseNotes>
     - Version 1.0.0 Contains initial implementation for logging based on nlog with default visualization of the logged items
     - Version 1.0.1 Extended the logger to have a default error page which can be used like: ctx.Response.Redirect("/error?message=" + UrlEncoder.Default.Encode(ctx.Failure.Message));
+    - Version 1.0.2 Nuget-creation after csproj file fix
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
