@@ -45,8 +45,6 @@ namespace Ccf.Ck.Libs.Logging
             return target;
         }
 
-        static string _ViewTemplate;
-
         public static LogLevel ConfiguredLogLevel
         {
             get
@@ -103,19 +101,14 @@ namespace Ccf.Ck.Libs.Logging
         }
 
 
-        public static string GetViewTemplate()
+        public static string GetViewTemplate(string viewName)
         {
-            if (string.IsNullOrEmpty(_ViewTemplate))
+            Assembly assembly = typeof(Utilities).GetTypeInfo().Assembly;
+            Stream resource = assembly.GetManifestResourceStream($"Ccf.Ck.Libs.Logging.Resources.{viewName}.html");
+            using (var reader = new StreamReader(resource))
             {
-                Assembly assembly = typeof(Utilities).GetTypeInfo().Assembly;
-                Stream resource = assembly.GetManifestResourceStream("Ccf.Ck.Libs.Logging.Resources.Template.html");
-                using (var reader = new StreamReader(resource))
-                {
-                    _ViewTemplate = reader.ReadToEnd();
-                }
+                return reader.ReadToEnd();
             }
-
-            return _ViewTemplate;
         }
 
         public static object GetCount(string connectionString, Dictionary<string, object> args)

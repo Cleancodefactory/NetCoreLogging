@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Text;
 using System.IO;
+using System.Linq;
+using System;
 
 namespace Ccf.Ck.Libs.Logging
 {
@@ -15,58 +17,70 @@ namespace Ccf.Ck.Libs.Logging
         {
             RequestDelegate requestDelegate = async httpContext =>
             {
-                if (httpContext.Request.Path.Value == $"/{errorUrlSegment}" || httpContext.Request.Path.Value == $"/{errorUrlSegment}/")
+                if (httpContext.Request.Path.HasValue)
                 {
-                    StringBuilder outputBuilder = new StringBuilder();
-                    object result = null;
-
-                    result = KraftLoggerExtensions.GetRowCount(httpContext.Request.Query);
-                    if (result != null)
+                    if (AreEqual(httpContext.Request.Path.Value, errorUrlSegment)) 
                     {
-                        int.TryParse(result.ToString(), out RowCount);
+                        StringBuilder outputBuilder = new StringBuilder();
+                        string htmlContent;
+                        if (httpContext.Request.QueryString.HasValue && httpContext.Request.Query.Where(kv => kv.Key.Equals("message", StringComparison.InvariantCultureIgnoreCase)).Count() == 1)
+                        {
+                            htmlContent = Utilities.GetViewTemplate("ErrorWithMsg");
+                            outputBuilder.Append(htmlContent);
+                        }
+                        else
+                        {
+                            object result = null;
+                            result = KraftLoggerExtensions.GetRowCount(httpContext.Request.Query);
+                            if (result != null)
+                            {
+                                int.TryParse(result.ToString(), out RowCount);
+                            }
+
+                            htmlContent = Utilities.GetViewTemplate("Errors");
+
+                            if (!string.IsNullOrEmpty(htmlContent))
+                            {
+
+                                int pageCount = (RowCount % Limit) == 0 ? (RowCount / Limit) : (RowCount / Limit) + 1;
+
+                                LoggerViewPreprocessor pagesReplace = new LoggerViewPreprocessor(htmlContent, pageCount);
+                                pagesReplace.Pages();
+                                htmlContent = pagesReplace.View;
+
+                                result = KraftLoggerExtensions.GetDataFromDB(httpContext.Request.Query, RowCount, Limit);
+                                LoggerViewPreprocessor tableReplace = new LoggerViewPreprocessor(htmlContent, result);
+                                tableReplace.GenerateTable();
+
+                                outputBuilder.Append(tableReplace.View);
+                            }
+                        }
+
+                        byte[] data = Encoding.UTF8.GetBytes(outputBuilder.ToString());
+                        httpContext.Response.StatusCode = 200;
+                        httpContext.Response.ContentType = "text/HTML";
+                        await httpContext.Response.Body.WriteAsync(data, 0, data.Length);
                     }
-
-                    string htmlContent = KraftLoggerExtensions.HtmlView();
-
-                    if (!string.IsNullOrEmpty(htmlContent))
+                    else if (AreEqual(httpContext.Request.Path.Value, $"{errorUrlSegment}/download"))
                     {
-
-                        int pageCount = (RowCount % Limit) == 0 ? (RowCount / Limit) : (RowCount / Limit) + 1;
-                        
-                        LoggerViewPreprocessor pagesReplace = new LoggerViewPreprocessor(htmlContent, pageCount);
-                        pagesReplace.Pages();
-                        htmlContent = pagesReplace.View;
-
-                        result = KraftLoggerExtensions.GetDataFromDB(httpContext.Request.Query, RowCount, Limit);
-                        LoggerViewPreprocessor tableReplace = new LoggerViewPreprocessor(htmlContent, result);
-                        tableReplace.GenerateTable();
-
-                        outputBuilder.Append(tableReplace.View);
+                        string filePath = KraftLoggerExtensions.GetDbFilePath();
+                        if (!string.IsNullOrEmpty(filePath))
+                        {
+                            string filename = Path.GetFileName(filePath);
+                            httpContext.Response.Headers.Add("Content-Disposition", $"attachment;filename={filename}");
+                            await httpContext.Response.SendFileAsync(filePath);
+                        }
                     }
-
-                    byte[] data = Encoding.UTF8.GetBytes(outputBuilder.ToString());
-                    httpContext.Response.StatusCode = 200;
-                    await httpContext.Response.Body.WriteAsync(data, 0, data.Length);
-                }
-                else if (httpContext.Request.Path.Value == $"/{errorUrlSegment}/download")
-                {
-                    string filePath = KraftLoggerExtensions.GetDbFilePath();
-                    if (!string.IsNullOrEmpty(filePath))
+                    else if (AreEqual(httpContext.Request.Path.Value, $"{errorUrlSegment}/truncate"))
                     {
-                        string filename = Path.GetFileName(filePath);
-                        httpContext.Response.Headers.Add("Content-Disposition", $"attachment;filename={filename}");
-                        await httpContext.Response.SendFileAsync(filePath);
-                    }
-                }
-                else if(httpContext.Request.Path.Value == $"/{errorUrlSegment}/truncate")
-                {
-                    KraftLoggerExtensions.TruncateLogData();
-                    httpContext.Response.Redirect($"/{errorUrlSegment}");
+                        KraftLoggerExtensions.TruncateLogData();
+                        httpContext.Response.Redirect($"/{errorUrlSegment}");
 
-                    //if (KraftLoggerExtensions.TruncateLogData())
-                    //{
-                    //    httpContext.Response.Redirect("");
-                    //}
+                        //if (KraftLoggerExtensions.TruncateLogData())
+                        //{
+                        //    httpContext.Response.Redirect("");
+                        //}
+                    }
                 }
             };
 
@@ -93,6 +107,17 @@ namespace Ccf.Ck.Libs.Logging
             IRouter kraftRouter = kraftRoutesBuilder.Build();
 
             return kraftRouter;
+        }
+
+        private static bool AreEqual(string first, string second)
+        {
+            if (!string.IsNullOrEmpty(first) && !string.IsNullOrEmpty(second))
+            {
+                first = first.Replace("/", "");
+                second = second.Replace("/", "");
+                return first.Equals(second, StringComparison.InvariantCultureIgnoreCase);
+            }
+            return false;
         }
     }
 }

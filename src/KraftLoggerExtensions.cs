@@ -117,11 +117,6 @@ namespace Ccf.Ck.Libs.Logging
             return Utilities.GetCount(connectionString, args);
         }
 
-        public static string HtmlView()
-        {
-            return Utilities.GetViewTemplate();
-        }
-
         public static object GetDataFromDB(IQueryCollection parameters = null, int rowCount = 0, int limit = 0)
         {
             string connectionString = Utilities.GetConnectionString();

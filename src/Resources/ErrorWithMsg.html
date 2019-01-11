@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Error occurred</title>
+</head>
+<body>
+    <h2> Error occurred! </h2>
+    <h3 id="message"></h3>
+    <p><a href="javascript:void(f())">Go back and try again!</a></p>
+    <script>
+        var searchParams = new URL(window.location.href).searchParams;
+        var content = '';
+        for (var pair of searchParams.entries()) {
+            content += pair[0] + ': ' + pair[1] + '<br>';
+        }
+        if (content !== null)
+        {
+            document.getElementById('message').innerHTML = decodeURIComponent(content);
+        }
+        function f()
+        {
+            document.location.href=window.location.origin;
+        }
+    </script>
+</body>
+</html>
