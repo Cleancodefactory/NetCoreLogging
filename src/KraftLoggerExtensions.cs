@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting.Internal;
 using NLog.Config;
 using System.Xml;
+using NLog.Layouts;
 
 namespace Ccf.Ck.Libs.Logging
 {
@@ -26,7 +27,20 @@ namespace Ccf.Ck.Libs.Logging
             RouteHandler kraftLoggerRoutehandler = new RouteHandler(KraftLoggerMiddleware.ExecuteDelegate(builder, errorUrlSegment));
             builder.UseRouter(KraftLoggerMiddleware.MakeRouter(builder, kraftLoggerRoutehandler, errorUrlSegment));
             loggerFactory.AddProvider(new KraftLoggerProvider(LogManager.GetCurrentClassLogger(), builder.ApplicationServices.GetService<IHttpContextAccessor>()));
-            Utilities.ShouldSerializeWithAllDetails = int.Parse(LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"].Text);
+            Utilities.ShouldSerializeWithAllDetails = 0;
+            if (LogManager.Configuration.Variables.Keys.Contains("ShouldSerializeWithAllDetails"))
+            {
+                SimpleLayout shouldSerializeWithAllDetails = LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"];
+                if (shouldSerializeWithAllDetails != null)
+                {
+                    int serialize;
+                    if (int.TryParse(LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"].Text, out serialize))
+                    {
+                        Utilities.ShouldSerializeWithAllDetails = serialize;
+                    }
+                }
+            }
+            
             _ApplicationLifetime = builder.ApplicationServices.GetRequiredService<IApplicationLifetime>();
             Utilities.CreateSqliteTarget();
         }
