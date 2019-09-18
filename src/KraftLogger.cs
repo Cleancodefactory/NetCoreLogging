@@ -170,7 +170,7 @@ namespace Ccf.Ck.Libs.Logging
             {
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
                 _Logger.Log(NLog.LogLevel.Fatal, message);
-            });
+            }).Wait();
         }
 
         public static void LogCritical(Exception exception, string message = null, params object[] args)
@@ -180,7 +180,7 @@ namespace Ccf.Ck.Libs.Logging
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
                 _Logger.Log(NLog.LogLevel.Fatal, exception, message);
-            });
+            }).Wait();
         }
 
         public static void LogDebug(string message, params object[] args)
@@ -189,7 +189,7 @@ namespace Ccf.Ck.Libs.Logging
             {
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, args));
                 _Logger?.Log(NLog.LogLevel.Debug, message);
-            });
+            }).Wait();
         }
 
         public static void LogDebug(Exception exception, string message = null, params object[] args)
@@ -199,7 +199,7 @@ namespace Ccf.Ck.Libs.Logging
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, args));
                 _Logger.Log(NLog.LogLevel.Debug, exception, message);
-            });
+            }).Wait();
         }
 
         public static void LogError(string message, params object[] args)
@@ -208,7 +208,7 @@ namespace Ccf.Ck.Libs.Logging
             {
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
                 _Logger.Log(NLog.LogLevel.Error, message);
-            });
+            }).Wait();
         }
 
         public static void LogError(Exception exception, string message = null, params object[] args)
@@ -218,7 +218,7 @@ namespace Ccf.Ck.Libs.Logging
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
                 _Logger.Log(NLog.LogLevel.Error, exception, message);
-            });
+            }).Wait();
         }
 
         public static void LogInformation(string message, params object[] args)
@@ -227,7 +227,7 @@ namespace Ccf.Ck.Libs.Logging
             {
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, args));
                 _Logger.Log(NLog.LogLevel.Info, message);
-            });
+            }).Wait();
         }
 
         public static void LogInformation(Exception exception, string message = null, params object[] args)
@@ -237,7 +237,7 @@ namespace Ccf.Ck.Libs.Logging
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, args));
                 _Logger.Log(NLog.LogLevel.Info, exception, message);
-            });
+            }).Wait();
         }
 
         public static void LogTrace(string message, params object[] args)
@@ -246,7 +246,7 @@ namespace Ccf.Ck.Libs.Logging
             {
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, args));
                 _Logger.Log(NLog.LogLevel.Trace, message);
-            });
+            }).Wait();
         }
 
         public static void LogTrace(Exception exception, string message = null, params object[] args)
@@ -256,7 +256,7 @@ namespace Ccf.Ck.Libs.Logging
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, args));
                 _Logger.Log(NLog.LogLevel.Trace, exception, message);
-            });
+            }).Wait();
         }
 
         public static void LogWarning(string message, params object[] args)
@@ -265,7 +265,7 @@ namespace Ccf.Ck.Libs.Logging
             {
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, args));
                 _Logger.Log(NLog.LogLevel.Warn, message);
-            });
+            }).Wait();
         }
 
         public static void LogWarning(Exception exception, string message = null, params object[] args)
@@ -275,7 +275,7 @@ namespace Ccf.Ck.Libs.Logging
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, args));
                 _Logger.Log(NLog.LogLevel.Warn, exception, message);
-            });
+            }).Wait();
         }
         #endregion Static Methods
     }

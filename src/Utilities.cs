@@ -409,7 +409,6 @@ namespace Ccf.Ck.Libs.Logging
                 {
                     foreach (object item in args)
                     {
-
                         if (item is HttpContext && ShouldSerializeWithAllDetails > 0)//Serialize only when configured
                         {
                             HttpContext context = item as HttpContext;
