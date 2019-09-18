@@ -15,7 +15,7 @@
       - Version 1.0.1 Extended the logger to have a default error page which can be used like: ctx.Response.Redirect("/error?message=" + UrlEncoder.Default.Encode(ctx.Failure.Message));
       - Version 1.0.2 Nuget-creation after csproj file fix
       - Version 1.0.3 Updated the nlog.config supporting a console; updated nuget packages
-      - Version 1.0.4 Updated nuget packages, bugfix: nlog.config without 'ShouldSerializeWithAllDetails' is fixed now.
+      - Version 1.0.4 Updated nuget packages, bugfix: nlog.config without 'ShouldSerializeWithAllDetails' is fixed now. Fixed problem when logging task is not done but the application is closing. The last log entries were missing.
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
