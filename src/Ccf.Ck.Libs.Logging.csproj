@@ -20,6 +20,7 @@
       - Version 1.0.6 Updated referenced nuget packages
       - Version 1.0.7 Moving back to netstandard2.0 because of the incompatibility with .netcoreapp,version=v2.2
       - Version 1.0.8 Compatibility issues with: Microsoft.Extensions.Logging Version=2.2.0
+      - Version 1.0.9 Compatibility issues: Microsoft.AspNetCore.Hosting downgraded to Version=2.2.0
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
@@ -33,7 +34,7 @@
     <EmbeddedResource Include="Resources\Errors.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.3" />
