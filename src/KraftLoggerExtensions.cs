@@ -11,18 +11,18 @@ using NLog;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Internal;
 using NLog.Config;
 using System.Xml;
 using NLog.Layouts;
+using Microsoft.Extensions.Hosting;
 
 namespace Ccf.Ck.Libs.Logging
 {
     public static class KraftLoggerExtensions
     {
-        private static IApplicationLifetime _ApplicationLifetime;
+        private static IHostApplicationLifetime _HostApplicationLifetime;
         private static FileSystemWatcher _FileSystemWatcher;
-        public static void UseBindKraftLogger(this IApplicationBuilder builder, IHostingEnvironment env, ILoggerFactory loggerFactory, string errorUrlSegment)
+        public static void UseBindKraftLogger(this IApplicationBuilder builder, IWebHostEnvironment env, ILoggerFactory loggerFactory, string errorUrlSegment)
         {
             RouteHandler kraftLoggerRoutehandler = new RouteHandler(KraftLoggerMiddleware.ExecuteDelegate(builder, errorUrlSegment));
             builder.UseRouter(KraftLoggerMiddleware.MakeRouter(builder, kraftLoggerRoutehandler, errorUrlSegment));
@@ -41,7 +41,7 @@ namespace Ccf.Ck.Libs.Logging
                 }
             }
             
-            _ApplicationLifetime = builder.ApplicationServices.GetRequiredService<IApplicationLifetime>();
+            _HostApplicationLifetime = builder.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
             Utilities.CreateSqliteTarget();
         }
 
@@ -79,19 +79,18 @@ namespace Ccf.Ck.Libs.Logging
             });
             //call this in case you need aspnet-user-authtype/aspnet-user-identity
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IApplicationLifetime, ApplicationLifetime>();
         }
 
-        public static void RestartApplication(IApplicationLifetime applicationLifetime, FileSystemEventArgs e)
+        public static void RestartApplication(IHostApplicationLifetime hostApplicationLifetime, FileSystemEventArgs e)
         {
             try {
-                if (applicationLifetime != null)
+                if (hostApplicationLifetime != null)
                 {
-                    applicationLifetime.StopApplication();
+                    hostApplicationLifetime.StopApplication();
                     KraftLogger.LogDebug($"Method: RestartApplication(KraftLoggerExtensions): Stopping application caused by {e.ChangeType} file {e.FullPath}");
-                    if (!applicationLifetime.ApplicationStopping.IsCancellationRequested)
+                    if (!hostApplicationLifetime.ApplicationStopping.IsCancellationRequested)
                     {
-                        Task.Delay(10 * 1000, applicationLifetime.ApplicationStopping);
+                        Task.Delay(10 * 1000, hostApplicationLifetime.ApplicationStopping);
                     }
                 }
                 else
@@ -107,9 +106,9 @@ namespace Ccf.Ck.Libs.Logging
 
         private static void FileWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-#if !DEBUG
-            RestartApplication(_ApplicationLifetime, e);
-#endif
+//#if !DEBUG
+            RestartApplication(_HostApplicationLifetime, e);
+//#endif
         }
 
         public static object GetRowCount(IQueryCollection parameters = null)

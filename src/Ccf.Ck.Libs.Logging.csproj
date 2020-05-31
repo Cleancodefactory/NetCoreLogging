@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <!-- Nuget specific tags -->
@@ -22,6 +22,7 @@
       - Version 1.0.8 Compatibility issues with: Microsoft.Extensions.Logging Version=2.2.0
       - Version 1.0.9 Compatibility issues: Microsoft.AspNetCore.Hosting downgraded to Version=2.2.0
       - Version 1.0.10 Update to TargetFramework netstandard2.1
+      - Version 1.0.11 Update to TargetFramework netcoreapp3.1
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
