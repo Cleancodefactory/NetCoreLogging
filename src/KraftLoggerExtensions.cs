@@ -33,8 +33,7 @@ namespace Ccf.Ck.Libs.Logging
                 SimpleLayout shouldSerializeWithAllDetails = LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"];
                 if (shouldSerializeWithAllDetails != null)
                 {
-                    int serialize;
-                    if (int.TryParse(LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"].Text, out serialize))
+                    if (int.TryParse(LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"].Text, out int serialize))
                     {
                         Utilities.ShouldSerializeWithAllDetails = serialize;
                     }
@@ -51,10 +50,12 @@ namespace Ccf.Ck.Libs.Logging
             FileInfo nlogConfig = new FileInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "nlog.config"));
             if (nlogConfig.Exists)
             {
-                _FileSystemWatcher = new FileSystemWatcher(nlogConfig.Directory.FullName, nlogConfig.Name);
-                _FileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
-                _FileSystemWatcher.EnableRaisingEvents = true;
-                _FileSystemWatcher.IncludeSubdirectories = false;
+                _FileSystemWatcher = new FileSystemWatcher(nlogConfig.Directory.FullName, nlogConfig.Name)
+                {
+                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
+                    EnableRaisingEvents = true,
+                    IncludeSubdirectories = false
+                };
                 _FileSystemWatcher.Changed += FileWatcher_Changed;
                 NLogBuilder.ConfigureNLog(nlogConfig.FullName);
             }

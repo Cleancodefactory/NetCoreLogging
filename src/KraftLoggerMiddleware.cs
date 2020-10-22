@@ -5,21 +5,22 @@ using System.Text;
 using System.IO;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace Ccf.Ck.Libs.Logging
 {
     internal class KraftLoggerMiddleware
     {
-        private static int Limit = 20;
+        private static readonly int Limit = 20;
 
         private static int RowCount;
         internal static RequestDelegate ExecuteDelegate(IApplicationBuilder builder, string errorUrlSegment)
         {
-            RequestDelegate requestDelegate = async httpContext =>
+            async Task requestDelegate(HttpContext httpContext)
             {
                 if (httpContext.Request.Path.HasValue)
                 {
-                    if (AreEqual(httpContext.Request.Path.Value, errorUrlSegment)) 
+                    if (AreEqual(httpContext.Request.Path.Value, errorUrlSegment))
                     {
                         StringBuilder outputBuilder = new StringBuilder();
                         string htmlContent;
@@ -82,7 +83,7 @@ namespace Ccf.Ck.Libs.Logging
                         //}
                     }
                 }
-            };
+            }
 
             return requestDelegate;
         }

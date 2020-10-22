@@ -27,11 +27,13 @@ namespace Ccf.Ck.Libs.Logging
 
         private NLogProviderOptions GetDefaultOptions()
         {
-            NLogProviderOptions options = new NLogProviderOptions();
-            options.CaptureMessageProperties = true;
-            options.CaptureMessageTemplates = true;
-            options.EventIdSeparator = ".";
-            options.IgnoreEmptyEventId = true;
+            NLogProviderOptions options = new NLogProviderOptions
+            {
+                CaptureMessageProperties = true,
+                CaptureMessageTemplates = true,
+                EventIdSeparator = ".",
+                IgnoreEmptyEventId = true
+            };
             return options;
         }
 
@@ -114,25 +116,17 @@ namespace Ccf.Ck.Libs.Logging
         /// <returns></returns>
         private static NLog.LogLevel ConvertLogLevel(Microsoft.Extensions.Logging.LogLevel logLevel)
         {
-            switch (logLevel)
+            return logLevel switch
             {
-                case Microsoft.Extensions.Logging.LogLevel.Trace:
-                    return NLog.LogLevel.Trace;
-                case Microsoft.Extensions.Logging.LogLevel.Debug:
-                    return NLog.LogLevel.Debug;
-                case Microsoft.Extensions.Logging.LogLevel.Information:
-                    return NLog.LogLevel.Info;
-                case Microsoft.Extensions.Logging.LogLevel.Warning:
-                    return NLog.LogLevel.Warn;
-                case Microsoft.Extensions.Logging.LogLevel.Error:
-                    return NLog.LogLevel.Error;
-                case Microsoft.Extensions.Logging.LogLevel.Critical:
-                    return NLog.LogLevel.Fatal;
-                case Microsoft.Extensions.Logging.LogLevel.None:
-                    return NLog.LogLevel.Off;
-                default:
-                    return NLog.LogLevel.Debug;
-            }
+                Microsoft.Extensions.Logging.LogLevel.Trace => NLog.LogLevel.Trace,
+                Microsoft.Extensions.Logging.LogLevel.Debug => NLog.LogLevel.Debug,
+                Microsoft.Extensions.Logging.LogLevel.Information => NLog.LogLevel.Info,
+                Microsoft.Extensions.Logging.LogLevel.Warning => NLog.LogLevel.Warn,
+                Microsoft.Extensions.Logging.LogLevel.Error => NLog.LogLevel.Error,
+                Microsoft.Extensions.Logging.LogLevel.Critical => NLog.LogLevel.Fatal,
+                Microsoft.Extensions.Logging.LogLevel.None => NLog.LogLevel.Off,
+                _ => NLog.LogLevel.Debug,
+            };
         }
 
         /// <summary>
