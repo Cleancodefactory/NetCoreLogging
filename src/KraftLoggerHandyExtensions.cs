@@ -7,7 +7,6 @@ namespace Ccf.Ck.Libs.Logging
 {
     public static class KraftLoggerHandyExtensions
     {
-
         public class Arguments
         {
             public object[] arguments { get => arguments; private set => arguments = value; }

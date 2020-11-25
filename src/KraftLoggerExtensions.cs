@@ -26,7 +26,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             RouteHandler kraftLoggerRoutehandler = new RouteHandler(KraftLoggerMiddleware.ExecuteDelegate(builder, errorUrlSegment));
             builder.UseRouter(KraftLoggerMiddleware.MakeRouter(builder, kraftLoggerRoutehandler, errorUrlSegment));
-            loggerFactory.AddProvider(new KraftLoggerProvider(LogManager.GetCurrentClassLogger(), builder.ApplicationServices.GetService<IHttpContextAccessor>()));
+            loggerFactory.AddProvider(new KraftLoggerProvider(LogManager.GetCurrentClassLogger(), builder.ApplicationServices.GetService<IHttpContextAccessor>(), env));
             Utilities.ShouldSerializeWithAllDetails = 0;
             if (LogManager.Configuration.Variables.Keys.Contains("ShouldSerializeWithAllDetails"))
             {

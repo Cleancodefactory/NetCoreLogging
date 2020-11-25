@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using NLog;
 
@@ -8,14 +9,16 @@ namespace Ccf.Ck.Libs.Logging
     {
         readonly Logger _Logger;
         readonly IHttpContextAccessor _Accessor;
-        public KraftLoggerProvider(Logger logger, IHttpContextAccessor accessor)
+        private IWebHostEnvironment _WebHostEnvironment;
+        public KraftLoggerProvider(Logger logger, IHttpContextAccessor accessor, IWebHostEnvironment env)
         {
             _Logger = logger;
             _Accessor = accessor;
+            _WebHostEnvironment = env;
         }
         public Microsoft.Extensions.Logging.ILogger CreateLogger(string categoryName)
         {
-            return new KraftLogger(_Logger, _Accessor, null);
+            return new KraftLogger(_Logger, _Accessor, null, _WebHostEnvironment);
         }
 
         #region IDisposable Support

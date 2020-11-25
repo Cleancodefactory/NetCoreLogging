@@ -6,6 +6,7 @@ using NLog.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using NLog.Targets;
 using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Ccf.Ck.Libs.Logging
 {
@@ -13,16 +14,18 @@ namespace Ccf.Ck.Libs.Logging
     { 
         private static Logger _Logger;
         private readonly NLogProviderOptions _Options;
+        private static IWebHostEnvironment _WebHostEnvironment;
         private static readonly object EmptyEventId = default(EventId);    // Cache boxing of empty EventId-struct
         private static readonly object ZeroEventId = default(EventId).Id;  // Cache boxing of zero EventId-Value
         private Tuple<string, string, string> _EventIdPropertyNames;
         private readonly IHttpContextAccessor _Accessor;
 
-        public KraftLogger(Logger logger, IHttpContextAccessor accessor, NLogProviderOptions options)
+        public KraftLogger(Logger logger, IHttpContextAccessor accessor, NLogProviderOptions options, IWebHostEnvironment env)
         {
             _Logger = logger;
             _Accessor = accessor;
             _Options = options ?? GetDefaultOptions();
+            _WebHostEnvironment = env;
         }
 
         private NLogProviderOptions GetDefaultOptions()
@@ -162,6 +165,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
                 _Logger.Log(NLog.LogLevel.Fatal, message);
             }).Wait();
@@ -171,6 +175,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
                 _Logger.Log(NLog.LogLevel.Fatal, exception, message);
@@ -181,6 +186,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, args));
                 _Logger?.Log(NLog.LogLevel.Debug, message);
             }).Wait();
@@ -190,6 +196,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, args));
                 _Logger.Log(NLog.LogLevel.Debug, exception, message);
@@ -200,6 +207,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
                 _Logger.Log(NLog.LogLevel.Error, message);
             }).Wait();
@@ -209,6 +217,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
                 _Logger.Log(NLog.LogLevel.Error, exception, message);
@@ -219,6 +228,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, args));
                 _Logger.Log(NLog.LogLevel.Info, message);
             }).Wait();
@@ -228,6 +238,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, args));
                 _Logger.Log(NLog.LogLevel.Info, exception, message);
@@ -238,6 +249,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, args));
                 _Logger.Log(NLog.LogLevel.Trace, message);
             }).Wait();
@@ -247,6 +259,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, args));
                 _Logger.Log(NLog.LogLevel.Trace, exception, message);
@@ -257,6 +270,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, args));
                 _Logger.Log(NLog.LogLevel.Warn, message);
             }).Wait();
@@ -266,6 +280,7 @@ namespace Ccf.Ck.Libs.Logging
         {
             Task.Factory.StartNew(() =>
             {
+                MappedDiagnosticsContext.Set("ExecutionFolder", _WebHostEnvironment.ContentRootPath);
                 MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, exception));
                 MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, args));
                 _Logger.Log(NLog.LogLevel.Warn, exception, message);
