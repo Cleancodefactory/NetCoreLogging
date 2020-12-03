@@ -189,6 +189,10 @@ namespace Ccf.Ck.Libs.Logging
                     _Logger.Log(NLog.LogLevel.Fatal, message);
                 }).Wait();
             }
+            else
+            {
+                EmergencyFileLogger.Log(message, null, Microsoft.Extensions.Logging.LogLevel.Critical);
+            }
         }
 
         public static void LogCritical(Exception exception, string message = null, params object[] args)
@@ -202,6 +206,10 @@ namespace Ccf.Ck.Libs.Logging
                     MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
                     _Logger.Log(NLog.LogLevel.Fatal, exception, message);
                 }).Wait();
+            }
+            else
+            {
+                EmergencyFileLogger.Log(message, exception, Microsoft.Extensions.Logging.LogLevel.Critical);
             }
         }
 
@@ -243,6 +251,10 @@ namespace Ccf.Ck.Libs.Logging
                     _Logger.Log(NLog.LogLevel.Error, message);
                 }).Wait();
             }
+            else
+            {
+                EmergencyFileLogger.Log(message, null, Microsoft.Extensions.Logging.LogLevel.Error);
+            }
         }
 
         public static void LogError(Exception exception, string message = null, params object[] args)
@@ -256,6 +268,10 @@ namespace Ccf.Ck.Libs.Logging
                     MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
                     _Logger.Log(NLog.LogLevel.Error, exception, message);
                 }).Wait();
+            }
+            else
+            {
+                EmergencyFileLogger.Log(message, exception, Microsoft.Extensions.Logging.LogLevel.Error);
             }
         }
 
