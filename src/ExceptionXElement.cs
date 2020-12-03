@@ -1,9 +1,6 @@
-﻿using Ccf.Ck.Libs.Logging.ExtensionMethods;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace Ccf.Ck.Libs.Logging
