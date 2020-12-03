@@ -26,6 +26,7 @@
       - Version 1.0.12 Update underlying Nuget-Packages
       - Version 1.0.13 Update underlying Nuget-Packages and reference NLog.MailKit
       - Version 1.0.14 Declare variable @ExecutionFolder which can be logged (handy when sending email with errors to identify environment)
+      - Version 1.0.15 ContentRootPath has a default of emtpy string
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
