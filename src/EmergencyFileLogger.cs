@@ -10,8 +10,7 @@ namespace Ccf.Ck.Libs.Logging
     {
         private static string _LogPath;
         private const string ERROR_MESSAGE_TEMPLATE =
-        @"
-        ERROR LOG ENTRY: ///////////////////////////////////////////////////////////////////////////////////////////////////
+        @"/////////////////////////////////////////////////////////////ERROR LOG ENTRY://///////////////////////////////////////////////////////////
         SOURCE: {0}
         LOGLEVEL: {1}
         MESSAGE: {2}
@@ -22,7 +21,8 @@ namespace Ccf.Ck.Libs.Logging
         {
             try
             {
-                _LogPath = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().Location, "Logs");
+                string directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                _LogPath = Path.Combine(directory, "Logs");
                 if (!Directory.Exists(_LogPath))
                 {
                     Directory.CreateDirectory(_LogPath);
