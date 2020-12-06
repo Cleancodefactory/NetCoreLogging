@@ -15,7 +15,7 @@ namespace Ccf.Ck.Libs.Logging
         LOGLEVEL: {1}
         MESSAGE: {2}
         TIMEUTC: {3}
-        ERRORXML: {4}";
+        ERROR_DETAILS: {4}";
 
         static EmergencyFileLogger()
         {
@@ -31,13 +31,14 @@ namespace Ccf.Ck.Libs.Logging
             catch { }
         }
 
-        public static void Log(string message, Exception error, LogLevel logLevel)
+        public static void Log(string message, Exception exception, LogLevel logLevel)
         {
-            if (error is null)
+            if (exception is null)
             {
-                error = new Exception();
+                exception = new Exception();
             }
-            Log2File(string.Format(ERROR_MESSAGE_TEMPLATE, error.Source, logLevel.ToString(),message, DateTime.Now, FillMetaFromException(error)));
+            Utilities.ShouldSerializeWithAllDetails = 1;
+            Log2File(string.Format(ERROR_MESSAGE_TEMPLATE, exception.Source, logLevel.ToString(), message, DateTime.Now, Utilities.Serialize(logLevel, exception)));
         }
 
         private static void Log2File(string value)
@@ -61,12 +62,6 @@ namespace Ccf.Ck.Libs.Logging
                 }
             }
             catch { }//swallow all exception
-        }
-
-        internal static string FillMetaFromException(Exception error)
-        {
-            ExceptionXElement e = new ExceptionXElement(error);
-            return e.ToString();
         }
     }
 }
