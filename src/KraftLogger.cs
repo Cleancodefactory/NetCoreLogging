@@ -182,12 +182,16 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Fatal))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
-                    _Logger.Log(NLog.LogLevel.Fatal, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
+                        _Logger.Log(NLog.LogLevel.Fatal, message);
+
+                    }).Wait();
+                }
             }
             else
             {
@@ -199,13 +203,16 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Fatal))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, exception));
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
-                    _Logger.Log(NLog.LogLevel.Fatal, exception, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, exception));
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Critical, args));
+                        _Logger.Log(NLog.LogLevel.Fatal, exception, message);
+                    }).Wait();
+                }
             }
             else
             {
@@ -217,12 +224,15 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Debug))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, args));
-                    _Logger?.Log(NLog.LogLevel.Debug, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, args));
+                        _Logger?.Log(NLog.LogLevel.Debug, message);
+                    }).Wait();
+                }
             }
         }
 
@@ -230,13 +240,16 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Debug))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, exception));
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, args));
-                    _Logger.Log(NLog.LogLevel.Debug, exception, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, exception));
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Debug, args));
+                        _Logger.Log(NLog.LogLevel.Debug, exception, message);
+                    }).Wait();
+                }
             }
         }
 
@@ -244,12 +257,15 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Error))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
-                    _Logger.Log(NLog.LogLevel.Error, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
+                        _Logger.Log(NLog.LogLevel.Error, message);
+                    }).Wait();
+                }
             }
             else
             {
@@ -261,13 +277,16 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Error))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, exception));
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
-                    _Logger.Log(NLog.LogLevel.Error, exception, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, exception));
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Error, args));
+                        _Logger.Log(NLog.LogLevel.Error, exception, message);
+                    }).Wait();
+                }
             }
             else
             {
@@ -279,12 +298,15 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Info))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, args));
-                    _Logger.Log(NLog.LogLevel.Info, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, args));
+                        _Logger.Log(NLog.LogLevel.Info, message);
+                    }).Wait();
+                }
             }
         }
 
@@ -292,13 +314,16 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Info))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, exception));
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, args));
-                    _Logger.Log(NLog.LogLevel.Info, exception, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, exception));
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Information, args));
+                        _Logger.Log(NLog.LogLevel.Info, exception, message);
+                    }).Wait();
+                }
             }
         }
 
@@ -306,12 +331,15 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Trace))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, args));
-                    _Logger.Log(NLog.LogLevel.Trace, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, args));
+                        _Logger.Log(NLog.LogLevel.Trace, message);
+                    }).Wait();
+                }
             }
         }
 
@@ -319,13 +347,16 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Trace))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, exception));
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, args));
-                    _Logger.Log(NLog.LogLevel.Trace, exception, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, exception));
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Trace, args));
+                        _Logger.Log(NLog.LogLevel.Trace, exception, message);
+                    }).Wait();
+                }
             }
         }
 
@@ -333,12 +364,15 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Warn))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, args));
-                    _Logger.Log(NLog.LogLevel.Warn, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, args));
+                        _Logger.Log(NLog.LogLevel.Warn, message);
+                    }).Wait();
+                }
             }
         }
 
@@ -346,13 +380,16 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                Task.Factory.StartNew(() =>
+                if (_Logger.IsEnabled(NLog.LogLevel.Warn))
                 {
-                    MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
-                    MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, exception));
-                    MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, args));
-                    _Logger.Log(NLog.LogLevel.Warn, exception, message);
-                }).Wait();
+                    Task.Factory.StartNew(() =>
+                    {
+                        MappedDiagnosticsContext.Set("ExecutionFolder", _ContentRootPath);
+                        MappedDiagnosticsContext.Set("KraftError", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, exception));
+                        MappedDiagnosticsContext.Set("Args", Utilities.Serialize(Microsoft.Extensions.Logging.LogLevel.Warning, args));
+                        _Logger.Log(NLog.LogLevel.Warn, exception, message);
+                    }).Wait();
+                }
             }
         }
         #endregion Static Methods

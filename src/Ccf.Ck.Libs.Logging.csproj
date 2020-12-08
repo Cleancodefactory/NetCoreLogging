@@ -31,6 +31,7 @@
       - Version 1.0.17 Add Emergency logger in case the main one is not initialized
       - Version 1.0.18 Fix error in determining the application folder for the emergency logger
       - Version 1.0.19 Serialize the error and all internal errors when Emergency logger used
+      - Version 1.0.20 Optimization to serialize arguments only for the configured targets and log levels
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
