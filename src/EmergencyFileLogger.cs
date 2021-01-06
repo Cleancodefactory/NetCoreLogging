@@ -8,7 +8,7 @@ namespace Ccf.Ck.Libs.Logging
 {
     internal class EmergencyFileLogger
     {
-        private static string _LogPath;
+        private static readonly string _LogPath;
         private const string ERROR_MESSAGE_TEMPLATE =
         @"/////////////////////////////////////////////////////////////ERROR LOG ENTRY://///////////////////////////////////////////////////////////
         SOURCE: {0}

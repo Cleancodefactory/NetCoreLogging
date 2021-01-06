@@ -19,7 +19,7 @@ namespace Ccf.Ck.Libs.Logging
                 Level = level;
             }
         }
-        private static Dictionary<NLog.LogLevel, Action<string, object[]>> loggers = new Dictionary<NLog.LogLevel, Action<string, object[]>>()
+        private static readonly Dictionary<NLog.LogLevel, Action<string, object[]>> loggers = new Dictionary<NLog.LogLevel, Action<string, object[]>>()
         {
             { LogLevel.Debug,  KraftLogger.LogDebug },
             { LogLevel.Error,  KraftLogger.LogError },

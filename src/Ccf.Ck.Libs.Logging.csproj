@@ -32,6 +32,7 @@
       - Version 1.0.18 Fix error in determining the application folder for the emergency logger
       - Version 1.0.19 Serialize the error and all internal errors when Emergency logger used
       - Version 1.0.20 Optimization to serialize arguments only for the configured targets and log levels
+      - Version 1.0.21 Updated Nlog packages
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
@@ -52,9 +53,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.9" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NLog" Version="4.7.5" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.5" />
+    <PackageReference Include="NLog" Version="4.7.6" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.7.0" />
     <PackageReference Include="NLog.MailKit" Version="3.3.0" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.10.0" />
   </ItemGroup>
 </Project>
