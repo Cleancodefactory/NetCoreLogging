@@ -24,8 +24,11 @@ namespace Ccf.Ck.Libs.Logging
         private static FileSystemWatcher _FileSystemWatcher;
         public static void UseBindKraftLogger(this IApplicationBuilder builder, IWebHostEnvironment env, ILoggerFactory loggerFactory, string errorUrlSegment)
         {
-            RouteHandler kraftLoggerRoutehandler = new RouteHandler(KraftLoggerMiddleware.ExecuteDelegate(builder, errorUrlSegment));
-            builder.UseRouter(KraftLoggerMiddleware.MakeRouter(builder, kraftLoggerRoutehandler, errorUrlSegment));
+            if (!string.IsNullOrEmpty(errorUrlSegment))
+            {
+                RouteHandler kraftLoggerRoutehandler = new RouteHandler(KraftLoggerMiddleware.ExecuteDelegate(builder, errorUrlSegment));
+                builder.UseRouter(KraftLoggerMiddleware.MakeRouter(builder, kraftLoggerRoutehandler, errorUrlSegment));
+            }
             loggerFactory.AddProvider(new KraftLoggerProvider(LogManager.GetCurrentClassLogger(), builder.ApplicationServices.GetService<IHttpContextAccessor>(), env));
             Utilities.ShouldSerializeWithAllDetails = 0;
             if (LogManager.Configuration.Variables.Keys.Contains("ShouldSerializeWithAllDetails"))
@@ -39,7 +42,7 @@ namespace Ccf.Ck.Libs.Logging
                     }
                 }
             }
-            
+
             _HostApplicationLifetime = builder.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
             Utilities.CreateSqliteTarget();
         }
@@ -72,7 +75,7 @@ namespace Ccf.Ck.Libs.Logging
                 XmlLoggingConfiguration config = new XmlLoggingConfiguration(xr, null);
                 NLogBuilder.ConfigureNLog(config);
             }
-                        
+
             services.AddLogging(logging =>
             {
                 logging.ClearProviders();
@@ -84,7 +87,8 @@ namespace Ccf.Ck.Libs.Logging
 
         public static void RestartApplication(IHostApplicationLifetime hostApplicationLifetime, FileSystemEventArgs e)
         {
-            try {
+            try
+            {
                 if (hostApplicationLifetime != null)
                 {
                     hostApplicationLifetime.StopApplication();
@@ -107,9 +111,9 @@ namespace Ccf.Ck.Libs.Logging
 
         private static void FileWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-//#if !DEBUG
+            //#if !DEBUG
             RestartApplication(_HostApplicationLifetime, e);
-//#endif
+            //#endif
         }
 
         public static object GetRowCount(IQueryCollection parameters = null)

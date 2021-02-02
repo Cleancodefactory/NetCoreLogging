@@ -33,6 +33,7 @@
       - Version 1.0.19 Serialize the error and all internal errors when Emergency logger used
       - Version 1.0.20 Optimization to serialize arguments only for the configured targets and log levels
       - Version 1.0.21 Updated Nlog packages
+      - Version 1.0.22 Check if errorUrlSegment is null or empty and skip registration of a router
       - Version 5.0.0  Updated to target net5.0
     </PackageReleaseNotes>
   </PropertyGroup>
