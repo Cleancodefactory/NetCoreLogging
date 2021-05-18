@@ -35,6 +35,7 @@
       - Version 1.0.21 Updated Nlog packages
       - Version 1.0.22 Check if errorUrlSegment is null or empty and skip registration of a router
       - Version 5.0.0  Updated to target net5.0
+      - Version 5.0.1  Fix bug with register routes to the web interface
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
