@@ -50,7 +50,16 @@ namespace Ccf.Ck.Libs.Logging
         public static void UseBindKraftLogger(this IServiceCollection services)
         {
             services.AddRouting();
-            FileInfo nlogConfig = new FileInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "nlog.config"));
+            IWebHostEnvironment env = services.BuildServiceProvider().GetService<IWebHostEnvironment>();
+            FileInfo nlogConfig = null;
+            if (env != null)
+            {
+                nlogConfig = new FileInfo(Path.Combine(Path.GetFullPath(env.ContentRootPath), "nlog.config"));
+            }
+            else
+            {
+                nlogConfig = new FileInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "nlog.config"));
+            }
             if (nlogConfig.Exists)
             {
                 _FileSystemWatcher = new FileSystemWatcher(nlogConfig.Directory.FullName, nlogConfig.Name)
