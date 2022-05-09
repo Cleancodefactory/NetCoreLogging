@@ -11,33 +11,34 @@
     <RepositoryUrl>https://github.com/cleancodefactory/netcorelogging</RepositoryUrl>
     <PackageTags>net core logging nlog representation</PackageTags>
     <PackageReleaseNotes>
-      - Version 1.0.0 Contains initial implementation for logging based on nlog with default visualization of the logged items
-      - Version 1.0.1 Extended the logger to have a default error page which can be used like: ctx.Response.Redirect("/error?message=" + UrlEncoder.Default.Encode(ctx.Failure.Message));
-      - Version 1.0.2 Nuget-creation after csproj file fix
-      - Version 1.0.3 Updated the nlog.config supporting a console; updated nuget packages
-      - Version 1.0.4 Updated nuget packages, bugfix: nlog.config without 'ShouldSerializeWithAllDetails' is fixed now. Fixed problem when logging task is not done but the application is closing. The last log entries were missing.
-      - Version 1.0.5 Added support for netstandard2.1
-      - Version 1.0.6 Updated referenced nuget packages
-      - Version 1.0.7 Moving back to netstandard2.0 because of the incompatibility with .netcoreapp,version=v2.2
-      - Version 1.0.8 Compatibility issues with: Microsoft.Extensions.Logging Version=2.2.0
-      - Version 1.0.9 Compatibility issues: Microsoft.AspNetCore.Hosting downgraded to Version=2.2.0
-      - Version 1.0.10 Update to TargetFramework netstandard2.1
-      - Version 1.0.11 Update to TargetFramework netcoreapp3.1
-      - Version 1.0.12 Update underlying Nuget-Packages
-      - Version 1.0.13 Update underlying Nuget-Packages and reference NLog.MailKit
-      - Version 1.0.14 Declare variable @ExecutionFolder which can be logged (handy when sending email with errors to identify environment)
-      - Version 1.0.15 ContentRootPath has a default of emtpy string
-      - Version 1.0.16 Log only when properly initialized
-      - Version 1.0.17 Add Emergency logger in case the main one is not initialized
-      - Version 1.0.18 Fix error in determining the application folder for the emergency logger
-      - Version 1.0.19 Serialize the error and all internal errors when Emergency logger used
-      - Version 1.0.20 Optimization to serialize arguments only for the configured targets and log levels
-      - Version 1.0.21 Updated Nlog packages
-      - Version 1.0.22 Check if errorUrlSegment is null or empty and skip registration of a router
-      - Version 5.0.0  Updated to target net5.0
-      - Version 5.0.1  Fix bug with register routes to the web interface
-      - Version 5.0.2  Read nlog.config from a)ContentRootPath, b)Assembly.GetEntryAssembly(), c)GetManifestResourceStream("Ccf.Ck.Libs.Logging.Resources.nlog.config"
-    </PackageReleaseNotes>
+		- Version 1.0.0 Contains initial implementation for logging based on nlog with default visualization of the logged items
+		- Version 1.0.1 Extended the logger to have a default error page which can be used like: ctx.Response.Redirect("/error?message=" + UrlEncoder.Default.Encode(ctx.Failure.Message));
+		- Version 1.0.2 Nuget-creation after csproj file fix
+		- Version 1.0.3 Updated the nlog.config supporting a console; updated nuget packages
+		- Version 1.0.4 Updated nuget packages, bugfix: nlog.config without 'ShouldSerializeWithAllDetails' is fixed now. Fixed problem when logging task is not done but the application is closing. The last log entries were missing.
+		- Version 1.0.5 Added support for netstandard2.1
+		- Version 1.0.6 Updated referenced nuget packages
+		- Version 1.0.7 Moving back to netstandard2.0 because of the incompatibility with .netcoreapp,version=v2.2
+		- Version 1.0.8 Compatibility issues with: Microsoft.Extensions.Logging Version=2.2.0
+		- Version 1.0.9 Compatibility issues: Microsoft.AspNetCore.Hosting downgraded to Version=2.2.0
+		- Version 1.0.10 Update to TargetFramework netstandard2.1
+		- Version 1.0.11 Update to TargetFramework netcoreapp3.1
+		- Version 1.0.12 Update underlying Nuget-Packages
+		- Version 1.0.13 Update underlying Nuget-Packages and reference NLog.MailKit
+		- Version 1.0.14 Declare variable @ExecutionFolder which can be logged (handy when sending email with errors to identify environment)
+		- Version 1.0.15 ContentRootPath has a default of emtpy string
+		- Version 1.0.16 Log only when properly initialized
+		- Version 1.0.17 Add Emergency logger in case the main one is not initialized
+		- Version 1.0.18 Fix error in determining the application folder for the emergency logger
+		- Version 1.0.19 Serialize the error and all internal errors when Emergency logger used
+		- Version 1.0.20 Optimization to serialize arguments only for the configured targets and log levels
+		- Version 1.0.21 Updated Nlog packages
+		- Version 1.0.22 Check if errorUrlSegment is null or empty and skip registration of a router
+		- Version 5.0.0  Updated to target net5.0
+		- Version 5.0.1  Fix bug with register routes to the web interface
+		- Version 5.0.2  Read nlog.config from a)ContentRootPath, b)Assembly.GetEntryAssembly(), c)GetManifestResourceStream("Ccf.Ck.Libs.Logging.Resources.nlog.config"
+		- Version 5.0.3  Lock the logger for the period of logging
+	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="nlog.config">
