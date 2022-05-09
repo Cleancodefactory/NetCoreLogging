@@ -12,7 +12,7 @@ namespace Ccf.Ck.Libs.Logging
 {
     public class KraftLogger : Microsoft.Extensions.Logging.ILogger
     {
-        static readonly object _Locker = new object();
+        static readonly object _Locker = new();
         private static Logger _Logger;
         private readonly NLogProviderOptions _Options;
         private static string _ContentRootPath = string.Empty;
@@ -32,9 +32,9 @@ namespace Ccf.Ck.Libs.Logging
             }
         }
 
-        private NLogProviderOptions GetDefaultOptions()
+        private static NLogProviderOptions GetDefaultOptions()
         {
-            NLogProviderOptions options = new NLogProviderOptions
+            NLogProviderOptions options = new()
             {
                 CaptureMessageProperties = true,
                 CaptureMessageTemplates = true,
@@ -121,7 +121,7 @@ namespace Ccf.Ck.Libs.Logging
         /// <summary>
         /// Is logging enabled for this logger at this <paramref name="logLevel"/>?
         /// </summary>
-        private bool IsEnabled(NLog.LogLevel logLevel)
+        private static bool IsEnabled(NLog.LogLevel logLevel)
         {
             if (_Logger != null)
             {
