@@ -125,7 +125,10 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                return _Logger.IsEnabled(logLevel);
+                lock (_Logger)
+                {
+                    return _Logger.IsEnabled(logLevel);
+                }
             }
             return false;
         }
@@ -171,13 +174,16 @@ namespace Ccf.Ck.Libs.Logging
         {
             if (_Logger != null)
             {
-                if (enable)
+                lock (_Locker)
                 {
-                    LogManager.EnableLogging();
-                }
-                else
-                {
-                    LogManager.DisableLogging();
+                    if (enable)
+                    {
+                        LogManager.EnableLogging();
+                    }
+                    else
+                    {
+                        LogManager.DisableLogging();
+                    }
                 }
             }
         }
