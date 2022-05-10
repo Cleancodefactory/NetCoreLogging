@@ -38,6 +38,7 @@
 		- Version 5.0.1  Fix bug with register routes to the web interface
 		- Version 5.0.2  Read nlog.config from a)ContentRootPath, b)Assembly.GetEntryAssembly(), c)GetManifestResourceStream("Ccf.Ck.Libs.Logging.Resources.nlog.config"
 		- Version 5.0.3  Lock the logger for the period of logging
+		- Version 6.0.0  Updated to .NET 6.0
 	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
