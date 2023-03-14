@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.106
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ccf.Ck.Libs.Logging", "src\Ccf.Ck.Libs.Logging.csproj", "{75237C3F-16C8-4789-92A2-2FB4FFE2FC7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ccf.Ck.Libs.Logging.Tests", "tests\Ccf.Ck.Libs.Logging.Tests.csproj", "{2F02BD77-F606-4865-8901-8F19E3762C76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestLogger", "tests\TestLogger.csproj", "{A51C3B84-6731-40D7-8A46-CF3BDD4076E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{75237C3F-16C8-4789-92A2-2FB4FFE2FC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75237C3F-16C8-4789-92A2-2FB4FFE2FC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75237C3F-16C8-4789-92A2-2FB4FFE2FC7E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F02BD77-F606-4865-8901-8F19E3762C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F02BD77-F606-4865-8901-8F19E3762C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F02BD77-F606-4865-8901-8F19E3762C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F02BD77-F606-4865-8901-8F19E3762C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51C3B84-6731-40D7-8A46-CF3BDD4076E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51C3B84-6731-40D7-8A46-CF3BDD4076E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51C3B84-6731-40D7-8A46-CF3BDD4076E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51C3B84-6731-40D7-8A46-CF3BDD4076E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

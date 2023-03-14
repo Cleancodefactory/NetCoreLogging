@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <!-- Nuget specific tags -->
@@ -39,6 +39,7 @@
 		- Version 5.0.2  Read nlog.config from a)ContentRootPath, b)Assembly.GetEntryAssembly(), c)GetManifestResourceStream("Ccf.Ck.Libs.Logging.Resources.nlog.config"
 		- Version 5.0.3  Lock the logger for the period of logging
 		- Version 6.0.0  Updated to .NET 6.0
+    - Version 7.0.0  Updated to .NET 7.0
 	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
@@ -52,11 +53,12 @@
     <EmbeddedResource Include="Resources\Errors.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NLog" Version="4.7.15" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />
-    <PackageReference Include="NLog.MailKit" Version="4.1.0" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.1.2" />
+    <PackageReference Include="NLog.Database" Version="5.1.2" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.2.2" />
+    <PackageReference Include="NLog.MailKit" Version="5.0.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.2" />
   </ItemGroup>
 </Project>

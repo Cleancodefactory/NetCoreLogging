@@ -33,10 +33,10 @@ namespace Ccf.Ck.Libs.Logging
             Utilities.ShouldSerializeWithAllDetails = 0;
             if (LogManager.Configuration.Variables.Keys.Contains("ShouldSerializeWithAllDetails"))
             {
-                SimpleLayout shouldSerializeWithAllDetails = LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"];
+                SimpleLayout shouldSerializeWithAllDetails = (SimpleLayout)LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"];
                 if (shouldSerializeWithAllDetails != null)
                 {
-                    if (int.TryParse(LogManager.Configuration.Variables["ShouldSerializeWithAllDetails"].Text, out int serialize))
+                    if (int.TryParse(shouldSerializeWithAllDetails.Text, out int serialize))
                     {
                         Utilities.ShouldSerializeWithAllDetails = serialize;
                     }

@@ -121,7 +121,7 @@ namespace Ccf.Ck.Libs.Logging
             }
 
             var databaseTarget = (NLog.Targets.DatabaseTarget)FindTargetByName(TARGETDATABASE);
-            string dbRowCountCommand = NLog.LogManager.Configuration.Variables["SelectRowCount"].Text;
+            string dbRowCountCommand = NLog.LogManager.Configuration.Variables["SelectRowCount"].ToString();
 
             using (DbConnection conn = new SqliteConnection(connectionString))
             {
@@ -146,7 +146,7 @@ namespace Ccf.Ck.Libs.Logging
 
             var databaseTarget = (NLog.Targets.DatabaseTarget)FindTargetByName(TARGETDATABASE);
 
-            string dbGetDataCommand = NLog.LogManager.Configuration.Variables["SelectWithFilter"].Text;
+            string dbGetDataCommand = NLog.LogManager.Configuration.Variables["SelectWithFilter"].ToString();
 
             List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
             using (DbConnection connection = new SqliteConnection(connectionString))
@@ -209,7 +209,7 @@ namespace Ccf.Ck.Libs.Logging
             if (string.IsNullOrWhiteSpace(connectionString)) throw new Exception("Missing connection string. Please check your configuration and try again.");
             var databaseTarget = (NLog.Targets.DatabaseTarget)FindTargetByName(TARGETDATABASE);
 
-            string dbTruncateLogDataCommand = NLog.LogManager.Configuration.Variables["TruncateLogDataCommand"].Text;
+            string dbTruncateLogDataCommand = NLog.LogManager.Configuration.Variables["TruncateLogDataCommand"].ToString();
 
             using (DbConnection conn = new SqliteConnection(connectionString))
             {
