@@ -41,6 +41,7 @@
 		- Version 6.0.0  Updated to .NET 6.0
 		- Version 7.0.0  Updated to .NET 7.0
 		- Version 7.0.1  Updated nugets and fixed example nlog.config
+		- Version 7.0.2  Extend the capabilities of showing errors
 	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>

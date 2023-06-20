@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title>Error Logger</title>
     <style type="text/css">
-
         html {
             font-family: sans-serif;
             -ms-text-size-adjust: 100%;
@@ -41,6 +41,10 @@
             border: solid 1px #C8C7C7;
             background-color: #0D1582;
             color: #fff;
+        }
+
+        tr {
+            cursor: pointer;
         }
 
         td {
@@ -111,12 +115,14 @@
                     border: 1px solid #C8C7C7;
                 }
 
-                    .pagination .pager a#btnNext, a#btnLast {
+                    .pagination .pager a#btnNext,
+                    a#btnLast {
                         border-top-right-radius: 5px;
                         border-bottom-right-radius: 5px;
                     }
 
-                    .pagination .pager a#btnPrev, a#btnFirst {
+                    .pagination .pager a#btnPrev,
+                    a#btnFirst {
                         border-top-left-radius: 5px;
                         border-bottom-left-radius: 5px;
                     }
@@ -129,8 +135,85 @@
                     .pagination .pager a:hover:not(.active) {
                         background-color: #ddd;
                     }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 20;
+            padding: 30px;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: visibility 0s linear 0.1s, opacity 0.3s ease;
+        }
+
+            .modal.open {
+                visibility: visible;
+                opacity: 1;
+                transition-delay: 0s;
+            }
+
+        .modal__overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 21;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal__close {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 24px;
+            color: #747474;
+            font-weight: bold;
+            &:hover
+
+        {
+            color: #000;
+        }
+
+        }
+
+        .modal__container {
+            position: relative;
+            z-index: 22;
+            width: 80%;
+            height: 80%;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px #fff;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #fff;
+            text-align: left;
+        }
+
+        .modal__errorContainer {
+            overflow: auto;
+            width: 100%;
+            height: 94%;
+        }
+
+            .modal__errorContainer div label {
+                font-size: larger;
+                font-weight: 500;
+            }
     </style>
 </head>
+
 <body>
     <h2> KraftCredible BindKraft! </h2>
     <h4 class="roundbox title">Error Log</h4>
@@ -157,7 +240,7 @@
             </tr>
         </thead>
         <tbody class="gridBody">
-            {{row-expr: {<td class="noselected" onclick="return ToggleContent(this);">{value}</td>}}}
+            {{row-expr: {<td class="noselected" onclick="return showModal(this);">{value}</td>}}}
         </tbody>
     </table>
     <p class="pagination">
@@ -174,9 +257,18 @@
         </span>
     </p>
 
+    <div id="jsModal" class="modal">
+        <div class="modal__overlay jsOverlay"></div>
+        <div class="modal__container">
+            <p>Error details:</p>
+            <button class="modal__close jsModalClose">&#10005;</button>
+            <div class="modal__errorContainer"></div>
+        </div>
+    </div>
+
     <script>
 
-        //#Region UrlHelper
+        //#region UrlHelper
         function UrlHelper() {
             this.url = '';
         }
@@ -277,7 +369,7 @@
         var urlHelper = UrlHelper.Init();
         urlHelper.InitEvents();
 
-        //#Region Pager
+        //#region Pager
         function Pager() {
             this.currentPage = 1;
             this.allPages = -1;
@@ -450,6 +542,7 @@
             urlHelper.url = currentUrl;
             urlHelper.setQueryStringFilter();
             pager.Reload(currentUrl);
+            closeModal();
         };
 
         function ToggleContent(el) {
@@ -478,6 +571,98 @@
             window.location.href = url;
         };
 
+        function showModal(selectedTableRow) {
+            var modalWindow = document.getElementById('jsModal');
+            modalWindow.classList ? modalWindow.classList.add('open') : modalWindow.className += ' ' + 'open';
+            var modalContainer = modalWindow.getElementsByClassName("modal__container")[0];
+            var container = modalContainer.getElementsByClassName("modal__errorContainer")[0];
+            for (let index = 0; index < selectedTableRow.cells.length; index++) {
+                var div;
+                switch (index) {
+                    case 0:
+                        {
+                            div = createDiv("Id: ", selectedTableRow.cells[index].innerHTML);
+                            break;
+                        }
+                    case 1:
+                        {
+                            div = createDiv("Timestamp: ", selectedTableRow.cells[index].innerHTML);
+                            break;
+                        }
+                    case 4:
+                        {
+                            div = createDiv("LogLevel: ", selectedTableRow.cells[index].innerHTML);
+                            break;
+                        }
+                    case 5:
+                        {
+                            div = createDiv("Message: ", selectedTableRow.cells[index].innerHTML);
+                            break;
+                        }
+                    case 6:
+                        {
+                            div = createDiv("Exception: ", selectedTableRow.cells[index].innerHTML);
+                            break;
+                        }
+                    case 9:
+                        {
+                            div = createDiv("KraftError: ", selectedTableRow.cells[index].innerHTML);
+                            break;
+                        }
+                    case 10:
+                        {
+                            div = createDiv("Arguments: ", selectedTableRow.cells[index].innerHTML);
+                            break;
+                        }
+                    default:
+                        break;
+                }
+                container?.appendChild(div);
+            }
+        }
+
+        function createDiv(labelText, labelValue) {
+            const div = document.createElement("div");
+            const label = document.createElement("label");
+            const labelContent = document.createTextNode(labelText);
+            label.appendChild(labelContent);
+            const span = document.createElement("span");
+            const spanContent = document.createTextNode(labelValue);
+            span.appendChild(spanContent);
+            div.appendChild(label);
+            div.appendChild(span);
+            return div;
+        }
+
+        function closeModal() {
+            /* Get close button */
+            var closeButton = document.getElementsByClassName('jsModalClose');
+            var closeOverlay = document.getElementsByClassName('jsOverlay');
+
+            /* Set onclick event handler for close buttons */
+            for (var i = 0; i < closeButton.length; i++) {
+                closeButton[i].onclick = function () {
+                    var modalWindow = this.parentNode.parentNode;
+
+                    modalWindow.classList ? modalWindow.classList.remove('open') : modalWindow.className = modalWindow.className.replace(new RegExp('(^|\\b)' + 'open'.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+
+                    var modalContainer = modalWindow.getElementsByClassName("modal__container")[0];
+                    var container = modalContainer.getElementsByClassName("modal__errorContainer")[0];
+                    while (container.firstChild) {
+                        container.removeChild(container.firstChild);
+                    }
+                }
+            }
+
+            /* Set onclick event handler for modal overlay */
+            for (var i = 0; i < closeOverlay.length; i++) {
+                closeOverlay[i].onclick = function () {
+                    var modalWindow = this.parentNode;
+
+                    modalWindow.classList ? modalWindow.classList.remove('open') : modalWindow.className = modalWindow.className.replace(new RegExp('(^|\\b)' + 'open'.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+                }
+            }
+        }
     </script>
 
 </body>
