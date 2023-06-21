@@ -47,6 +47,14 @@
             cursor: pointer;
         }
 
+        tr:nth-child(even) {
+            background-color: rgb(189, 228, 243);
+        }
+
+        tr:hover {
+            background-color: rgb(188, 191, 205);
+        }
+
         td {
             padding: 3px;
             text-align: left;
@@ -179,12 +187,6 @@
             font-size: 24px;
             color: #747474;
             font-weight: bold;
-            &:hover
-
-        {
-            color: #000;
-        }
-
         }
 
         .modal__container {
@@ -204,13 +206,13 @@
         .modal__errorContainer {
             overflow: auto;
             width: 100%;
-            height: 94%;
+            height: 90%;
         }
 
-            .modal__errorContainer div label {
-                font-size: larger;
-                font-weight: 500;
-            }
+        .modal__errorContainer div label {
+            font-size: larger;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -240,7 +242,7 @@
             </tr>
         </thead>
         <tbody class="gridBody">
-            {{row-expr: {<td class="noselected" onclick="return showModal(this);">{value}</td>}}}
+            {{row-expr: {<td class="noselected" title="{value}">{value}</td>}}}
         </tbody>
     </table>
     <p class="pagination">
@@ -260,7 +262,7 @@
     <div id="jsModal" class="modal">
         <div class="modal__overlay jsOverlay"></div>
         <div class="modal__container">
-            <p>Error details:</p>
+            <h2>Error details:</h2>
             <button class="modal__close jsModalClose">&#10005;</button>
             <div class="modal__errorContainer"></div>
         </div>

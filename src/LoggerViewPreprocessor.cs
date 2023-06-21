@@ -87,7 +87,7 @@ namespace Ccf.Ck.Libs.Logging
                         case "row-expr":
                             foreach (Dictionary<string, object> t in temp)
                             {
-                                builder.AppendLine("<tr>");
+                                builder.AppendLine("<tr onclick='return showModal(this);'>");
                                 foreach (KeyValuePair<string, object> kvp in t)
                                 {
                                     builder.Append(_HtmlValueReplace.Replace(template, n =>
