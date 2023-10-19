@@ -43,6 +43,7 @@
 		- Version 7.0.1  Updated nugets and fixed example nlog.config
 		- Version 7.0.2  Extend the capabilities of showing errors
 		- Version 7.0.3  Update styling of the error report
+		- Version 7.0.4  Updated nuget packages
 	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
