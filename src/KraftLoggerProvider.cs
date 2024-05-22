@@ -7,9 +7,9 @@ namespace Ccf.Ck.Libs.Logging
 {
     public class KraftLoggerProvider : ILoggerProvider
     {
-        readonly Logger _Logger;
-        readonly IHttpContextAccessor _Accessor;
-        private IWebHostEnvironment _WebHostEnvironment;
+        private readonly Logger _Logger;
+        private readonly IHttpContextAccessor _Accessor;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         public KraftLoggerProvider(Logger logger, IHttpContextAccessor accessor, IWebHostEnvironment env)
         {
             _Logger = logger;

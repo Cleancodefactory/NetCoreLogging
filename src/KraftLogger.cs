@@ -123,14 +123,7 @@ namespace Ccf.Ck.Libs.Logging
         /// </summary>
         private static bool IsEnabled(NLog.LogLevel logLevel)
         {
-            if (_Logger != null)
-            {
-                lock (_Logger)
-                {
-                    return _Logger.IsEnabled(logLevel);
-                }
-            }
-            return false;
+            return _Logger?.IsEnabled(logLevel) ?? false;
         }
 
         /// <summary>
