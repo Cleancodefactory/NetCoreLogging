@@ -44,6 +44,7 @@
 		- Version 7.0.2  Extend the capabilities of showing errors
 		- Version 7.0.3  Update styling of the error report
 		- Version 7.0.4  Updated nuget packages
+		- Version 8.0.0  Updated to .NET 8.0
 	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
