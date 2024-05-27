@@ -45,6 +45,7 @@
 		- Version 7.0.3  Update styling of the error report
 		- Version 7.0.4  Updated nuget packages
 		- Version 8.0.0  Updated to .NET 8.0
+		- Version 8.0.1  add assembly=NLog.Web.AspNetCore for loading layout
 	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>

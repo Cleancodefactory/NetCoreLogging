@@ -1,20 +1,17 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Web;
+using NLog;
+using NLog.Layouts;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Collections.Generic;
-using NLog;
-using Microsoft.AspNetCore.Routing;
-using System;
 using System.Threading.Tasks;
-using NLog.Config;
-using System.Xml;
-using NLog.Layouts;
-using Microsoft.Extensions.Hosting;
 
 namespace Ccf.Ck.Libs.Logging
 {
@@ -69,20 +66,21 @@ namespace Ccf.Ck.Libs.Logging
                     IncludeSubdirectories = false
                 };
                 _FileSystemWatcher.Changed += FileWatcher_Changed;
-                NLogBuilder.ConfigureNLog(nlogConfig.FullName);
+                NLog.LogManager.Setup().LoadConfigurationFromFile(nlogConfig.FullName);
             }
             else
             {
                 Assembly assembly = typeof(KraftLoggerExtensions).GetTypeInfo().Assembly;
-                Stream resource = assembly.GetManifestResourceStream("Ccf.Ck.Libs.Logging.Resources.nlog.config");
-                StringReader sr;
-                using (var reader = new StreamReader(resource))
-                {
-                    sr = new StringReader(reader.ReadToEnd());
-                }
-                XmlReader xr = XmlReader.Create(sr);
-                XmlLoggingConfiguration config = new XmlLoggingConfiguration(xr, null);
-                NLogBuilder.ConfigureNLog(config);
+                //Stream resource = assembly.GetManifestResourceStream("Ccf.Ck.Libs.Logging.Resources.nlog.config");
+                //StringReader sr;
+                //using (var reader = new StreamReader(resource))
+                //{
+                //    sr = new StringReader(reader.ReadToEnd());
+                //}
+                //XmlReader xr = XmlReader.Create(sr);
+                //XmlLoggingConfiguration config = new XmlLoggingConfiguration(xr, null);
+                NLog.LogManager.Setup().LoadConfigurationFromAssemblyResource(assembly, "Ccf.Ck.Libs.Logging.Resources.nlog.config");
+                //NLogBuilder.ConfigureNLog(config);
             }
 
             services.AddLogging(logging =>
