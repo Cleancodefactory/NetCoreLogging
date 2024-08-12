@@ -26,14 +26,30 @@ namespace TestLogger
 
             try
             {
-                try
-                {
-                    throw new Exception("Inner");
-                }
-                catch (Exception inner)
-                {
-                    throw new Exception("Outer", inner);
-                }
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+                KraftLogger.LogError("Error....");
+
+                //try
+                //{
+                //    throw new Exception("Inner");
+                //}
+                //catch (Exception inner)
+                //{
+                //    throw new Exception("Outer", inner);
+                //}
             }
             catch (Exception ex)
             {
