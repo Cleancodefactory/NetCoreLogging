@@ -27,20 +27,20 @@ namespace TestLogger
             try
             {
                 KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
-                KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
 
                 //try
                 //{
