@@ -47,6 +47,7 @@
 		- Version 8.0.0  Updated to .NET 8.0
 		- Version 8.0.1  add assembly=NLog.Web.AspNetCore for loading layout
 		- Version 8.0.2  Deduplication filter implemented
+		- Version 9.0.0  Updated to .NET 9.0
 	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
