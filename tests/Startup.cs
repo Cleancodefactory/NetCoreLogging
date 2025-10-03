@@ -1,5 +1,6 @@
 ﻿using Ccf.Ck.Libs.Logging;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,13 @@ namespace TestLogger
 
             try
             {
-                KraftLogger.LogError("Error....");
+                //KraftLogger.LogError("Error....");
+                for (int i = 0; i < 20; i++)
+                {
+                    KraftLogger.LogCritical($"Method: public IActionResult Error for path: {i}", new Exception($"Exception {i}"));
+                }
+                
+
                 //KraftLogger.LogError("Error....");
                 //KraftLogger.LogError("Error....");
                 //KraftLogger.LogError("Error....");
