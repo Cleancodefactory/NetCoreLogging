@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
   <!-- Nuget specific tags -->
@@ -48,6 +48,7 @@
 		- Version 8.0.1  add assembly=NLog.Web.AspNetCore for loading layout
 		- Version 8.0.2  Deduplication filter implemented
 		- Version 9.0.0  Updated to .NET 9.0
+		- Version 10.0.0  Updated to .NET 10.0
 	</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
@@ -61,12 +62,12 @@
     <EmbeddedResource Include="Resources\Errors.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="NLog" Version="6.0.4" />
+    <PackageReference Include="NLog" Version="6.0.6" />
     <PackageReference Include="NLog.Database" Version="6.0.3" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="6.0.4" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="6.1.0" />
     <PackageReference Include="NLog.Targets.Mail" Version="6.0.3" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="6.0.4" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="6.1.0" />
   </ItemGroup>
 </Project>
